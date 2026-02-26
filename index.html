@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esencia Paradise 2026 — Registration</title>
+  <link rel="icon" href="https://esenciaparadise.com/wp-content/uploads/2025/10/cropped-IMG_6017-scaled-1.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Design tokens ─────────────────────────────────── */
+    :root {
+      --gold:        #EAD8B1;
+      --gold-light:  #F3E5C5;
+      --bronze:      #C6A25F;
+      --bronze-dark: #a8683f;
+      --crimson:     #7E1212;
+      --dark-0:      #050506;
+      --dark-1:      #0B0B0C;
+      --dark-2:      #111112;
+      --card-bg:     rgba(10, 10, 11, 0.88);
+      --border:      rgba(234, 216, 177, 0.22);
+      --border-focus:rgba(198, 162, 95, 0.7);
+      --text-muted:  rgba(234, 216, 177, 0.55);
+      --radius-card: 24px;
+      --radius-input:12px;
+      --radius-btn:  999px;
+      --transition:  0.25s ease;
+    }
+
+    /* ─── Reset & base ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--dark-0);
+      color: var(--gold);
+      font-family: 'Montserrat', system-ui, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* ─── Background texture / glow ────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(198,162,95,.13) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(126,18,18,.09) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Header ────────────────────────────────────────── */
+    header {
+      width: 100%;
+      padding: 1.5rem 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-wrap img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 18px rgba(198,162,95,.45));
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      font-weight: 600;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--bronze) 60%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-weight: 400;
+      max-width: 440px;
+    }
+
+    .event-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1.1rem;
+      border-radius: var(--radius-btn);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--bronze);
+      font-weight: 600;
+      background: rgba(198,162,95,.06);
+      margin-top: 0.25rem;
+    }
+
+    .event-badge span { color: var(--text-muted); font-weight: 400; }
+
+    /* ─── Main layout ───────────────────────────────────── */
+    main {
+      width: 100%;
+      max-width: 600px;
+      padding: 0 1.25rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Card ──────────────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: clamp(1.6rem, 5vw, 2.6rem);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.85),
+        0 0 0 1px rgba(234,216,177,.04) inset;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* ─── Section label ─────────────────────────────────── */
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      margin-top: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-label:first-child { margin-top: 0; }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── Form grid ─────────────────────────────────────── */
+    .form-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    /* ─── Field group ───────────────────────────────────── */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+    }
+
+    label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color var(--transition);
+    }
+
+    .field:focus-within label { color: var(--bronze); }
+
+    input, select, textarea {
+      width: 100%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      color: var(--gold);
+      font-family: inherit;
+      font-size: 0.92rem;
+      padding: 0.72rem 1rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(234,216,177,.25);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--border-focus);
+      background: rgba(198,162,95,.05);
+      box-shadow: 0 0 0 3px rgba(198,162,95,.12);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C6A25F' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    select option {
+      background: var(--dark-1);
+      color: var(--gold);
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    /* ─── Radio/Checkbox pills ──────────────────────────── */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill-group input[type="radio"],
+    .pill-group input[type="checkbox"] { display: none; }
+
+    .pill-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .pill-group input:checked + label {
+      background: linear-gradient(90deg, var(--bronze-dark), var(--bronze));
+      border-color: transparent;
+      color: var(--dark-0);
+      box-shadow: 0 4px 16px rgba(198,162,95,.35);
+    }
+
+    .pill-group label:hover {
+      border-color: rgba(198,162,95,.5);
+      color: var(--gold);
+    }
+
+    /* ─── Submit button ─────────────────────────────────── */
+    .submit-wrap {
+      margin-top: 2rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem 2rem;
+      background: linear-gradient(90deg, var(--bronze-dark) 0%, var(--bronze) 50%, var(--gold-light) 100%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+      border: none;
+      border-radius: var(--radius-btn);
+      color: var(--dark-0);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-position 0.4s ease, box-shadow 0.3s ease, transform 0.15s ease;
+      box-shadow: 0 14px 35px rgba(0,0,0,.7), 0 0 0 1px rgba(234,216,177,.1) inset;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.15) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .btn-submit:hover {
+      background-position: 0% 0;
+      box-shadow: 0 18px 45px rgba(0,0,0,.8), 0 0 0 1px rgba(234,216,177,.2) inset;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:hover::after { transform: translateX(100%); }
+
+    .btn-submit:active { transform: translateY(0); }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ─── States: success / error ───────────────────────── */
+    .state-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 2rem 0 0.5rem;
+    }
+
+    .state-overlay.active { display: flex; }
+
+    .state-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .state-icon.success { background: rgba(198,162,95,.15); border: 1px solid var(--border-focus); }
+    .state-icon.error   { background: rgba(126,18,18,.2);   border: 1px solid rgba(126,18,18,.5); }
+
+    .state-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .state-msg {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      max-width: 340px;
+      line-height: 1.7;
+    }
+
+    .btn-retry {
+      margin-top: 0.5rem;
+      padding: 0.6rem 1.6rem;
+      border: 1px solid var(--border-focus);
+      border-radius: var(--radius-btn);
+      background: transparent;
+      color: var(--bronze);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-retry:hover {
+      background: rgba(198,162,95,.1);
+      border-color: var(--bronze);
+      color: var(--gold);
+    }
+
+    /* ─── Spinner ────────────────────────────────────────── */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(5,5,6,.4);
+      border-top-color: var(--dark-0);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Legal note ─────────────────────────────────────── */
+    .legal {
+      margin-top: 1.2rem;
+      font-size: 0.72rem;
+      color: rgba(234,216,177,.3);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .legal a { color: var(--bronze); text-decoration: none; }
+    .legal a:hover { text-decoration: underline; }
+
+    /* ─── Divider line ───────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 1.8rem 0;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem 1rem 2rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: rgba(234,216,177,.2);
+      letter-spacing: 0.08em;
+    }
+
+    footer a { color: rgba(234,216,177,.4); text-decoration: none; }
+
+    /* ─── Responsive ─────────────────────────────────────── */
+    @media (max-width: 520px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid .full { grid-column: 1; }
+      header { padding: 1.25rem 1rem 0.75rem; }
+    }
+
+    /* ─── Shimmer animation on title ─────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+
+    header h1 {
+      background-size: 200% auto;
+      animation: shimmer 5s linear infinite;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <header>
+    <div class="logo-wrap">
+      <img src="https://esenciaparadise.com/wp-content/uploads/2025/10/IMG_6016.png"
+           alt="Esencia Paradise Logo"
+           width="80" height="80" />
+    </div>
+    <p class="eyebrow">International Bachata Congress</p>
+    <h1>Esencia Paradise 2026</h1>
+    <p class="subtitle">Complete your details before accessing the ticketing platform</p>
+    <div class="event-badge">
+      Barcelona &nbsp;·&nbsp; <span>April 30 → May 3, 2026</span>
+    </div>
+  </header>
+
+  <!-- ── Main form ──────────────────────────────────────── -->
+  <main>
+    <div class="card">
+
+      <!-- Success state -->
+      <div class="state-overlay" id="stateSuccess">
+        <div class="state-icon success">✦</div>
+        <p class="state-title">You're registered!</p>
+        <p class="state-msg">
+          Thank you for joining Esencia Paradise 2026.<br />
+          Redirecting you to the ticketing platform…
+        </p>
+      </div>
+
+      <!-- Error state -->
+      <div class="state-overlay" id="stateError">
+        <div class="state-icon error">✕</div>
+        <p class="state-title">Something went wrong</p>
+        <p class="state-msg">We couldn't save your information. Please try again or contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.</p>
+        <button class="btn-retry" onclick="resetForm()">Try again</button>
+      </div>
+
+      <!-- ── Form ───────────────────────────────────────── -->
+      <form id="registrationForm" novalidate>
+
+        <p class="section-label">Personal info</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="firstName">First name *</label>
+            <input type="text" id="firstName" name="firstName"
+                   placeholder="María" required autocomplete="given-name" />
+          </div>
+          <div class="field">
+            <label for="lastName">Last name *</label>
+            <input type="text" id="lastName" name="lastName"
+                   placeholder="García" required autocomplete="family-name" />
+          </div>
+          <div class="field full">
+            <label for="email">Email address *</label>
+            <input type="email" id="email" name="email"
+                   placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="field full">
+            <label for="phone">WhatsApp / Phone *</label>
+            <input type="tel" id="phone" name="phone"
+                   placeholder="+34 600 000 000" required autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="country">Country *</label>
+            <select id="country" name="country" required>
+              <option value="" disabled selected>Select country</option>
+              <option>Spain</option>
+              <option>United Kingdom</option>
+              <option>France</option>
+              <option>Germany</option>
+              <option>Italy</option>
+              <option>Netherlands</option>
+              <option>Belgium</option>
+              <option>Portugal</option>
+              <option>United States</option>
+              <option>Mexico</option>
+              <option>Colombia</option>
+              <option>Argentina</option>
+              <option>Brazil</option>
+              <option>Switzerland</option>
+              <option>Austria</option>
+              <option>Sweden</option>
+              <option>Norway</option>
+              <option>Denmark</option>
+              <option>Poland</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city"
+                   placeholder="Barcelona" autocomplete="address-level2" />
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="section-label">Dance profile</p>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label>Dance role *</label>
+            <div class="pill-group">
+              <input type="radio" name="role" id="roleLeader" value="Leader" required />
+              <label for="roleLeader">Leader</label>
+              <input type="radio" name="role" id="roleFollower" value="Follower" />
+              <label for="roleFollower">Follower</label>
+              <input type="radio" name="role" id="roleBoth" value="Both" />
+              <label for="roleBoth">Both</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label>Dance level *</label>
+            <div class="pill-group">
+              <input type="radio" name="level" id="lvlBeginner"     value="Beginner"     required />
+              <label for="lvlBeginner">Beginner</label>
+              <input type="radio" name="level" id="lvlIntermediate" value="Intermediate" />
+              <label for="lvlIntermediate">Intermediate</label>
+              <input type="radio" name="level" id="lvlAdvanced"     value="Advanced"     />
+              <label for="lvlAdvanced">Advanced</label>
+              <input type="radio" name="level" id="lvlPro"          value="Professional" />
+              <label for="lvlPro">Professional</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="style">Preferred style</label>
+            <div class="pill-group">
+              <input type="radio" name="style" id="styleModern"      value="Modern Bachata" />
+              <label for="styleModern">Modern</label>
+              <input type="radio" name="style" id="styleTraditional" value="Traditional Bachata" />
+              <label for="styleTraditional">Traditional</label>
+              <input type="radio" name="style" id="styleSensual"     value="Sensual Bachata" />
+              <label for="styleSensual">Sensual</label>
+              <input type="radio" name="style" id="styleAll"         value="All styles" />
+              <label for="styleAll">All styles</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="section-label">How did you find us?</p>
+
+        <div class="form-grid">
+          <div class="field full">
+            <div class="pill-group">
+              <input type="radio" name="source" id="srcInstagram" value="Instagram" />
+              <label for="srcInstagram">Instagram</label>
+              <input type="radio" name="source" id="srcFacebook" value="Facebook" />
+              <label for="srcFacebook">Facebook</label>
+              <input type="radio" name="source" id="srcFriend" value="Friend" />
+              <label for="srcFriend">A friend</label>
+              <input type="radio" name="source" id="srcPromoter" value="Promoter" />
+              <label for="srcPromoter">Promoter</label>
+              <input type="radio" name="source" id="srcOther" value="Other" />
+              <label for="srcOther">Other</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="promoterCode">Promoter code <small style="font-size:0.65rem;text-transform:none;letter-spacing:0">(if applicable)</small></label>
+            <input type="text" id="promoterCode" name="promoterCode"
+                   placeholder="e.g. EP2026-PROMO" />
+          </div>
+
+          <div class="field full">
+            <label for="comments">Any questions or comments?</label>
+            <textarea id="comments" name="comments"
+                      placeholder="Dietary requirements, accessibility needs, questions…"></textarea>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-wrap">
+          <button type="submit" class="btn-submit" id="submitBtn">
+            Continue to Ticketing
+          </button>
+        </div>
+
+        <p class="legal">
+          By submitting this form you agree that your data will be stored by Esencia Paradise
+          and used solely to manage your registration and attendance.
+          We will never share your information with third parties.
+        </p>
+
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Esencia Paradise · Barcelona ·
+    <a href="https://esenciaparadise.com" target="_blank">esenciaparadise.com</a>
+  </footer>
+
+  <!-- ── Script ─────────────────────────────────────────── -->
+  <script>
+    const WEBHOOK_URL = 'https://esencia-paradise-n8n.rh6pum.easypanel.host/webhook/ad8b0ef9-ad63-4466-8a4a-c652f7b53f52';
+
+    const form       = document.getElementById('registrationForm');
+    const submitBtn  = document.getElementById('submitBtn');
+    const stateOk    = document.getElementById('stateSuccess');
+    const stateErr   = document.getElementById('stateError');
+
+    function showState(which) {
+      form.style.display = 'none';
+      if (which === 'success') stateOk.classList.add('active');
+      if (which === 'error')   stateErr.classList.add('active');
+    }
+
+    function resetForm() {
+      stateErr.classList.remove('active');
+      form.style.display = '';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Continue to Ticketing';
+    }
+
+    // Pill-group radio: auto-deselect same-name if user clicks again (optional UX)
+    document.querySelectorAll('.pill-group input[type="radio"]').forEach(radio => {
+      radio.addEventListener('click', function () {
+        // tiny ripple via border flash
+        this.nextElementSibling.style.boxShadow = '0 0 0 4px rgba(198,162,95,.25)';
+        setTimeout(() => { if (this.nextElementSibling) this.nextElementSibling.style.boxShadow = ''; }, 300);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // ── Basic validation ────────────────────────────────
+      const required = form.querySelectorAll('[required]');
+      let valid = true;
+
+      required.forEach(field => {
+        const isRadioGroup = field.type === 'radio';
+        if (isRadioGroup) {
+          const checked = form.querySelector(`[name="${field.name}"]:checked`);
+          if (!checked) { valid = false; highlightError(field.closest('.form-grid .full') || field.parentElement); }
+        } else {
+          if (!field.value.trim()) { valid = false; highlightError(field); }
+        }
+      });
+
+      if (!valid) return;
+
+      // ── Collect data ────────────────────────────────────
+      const data = {
+        'Full name':    `${form.firstName.value.trim()} ${form.lastName.value.trim()}`,
+        'First name':   form.firstName.value.trim(),
+        'Last name':    form.lastName.value.trim(),
+        'Email':        form.email.value.trim().toLowerCase(),
+        'Phone':        form.phone.value.trim(),
+        'Country':      form.country.value,
+        'City':         form.city.value.trim(),
+        'Role':         form.querySelector('[name="role"]:checked')?.value    || '',
+        'Level':        form.querySelector('[name="level"]:checked')?.value   || '',
+        'Style':        form.querySelector('[name="style"]:checked')?.value   || '',
+        'Source':       form.querySelector('[name="source"]:checked')?.value  || '',
+        'Promoter code':form.promoterCode.value.trim(),
+        'Comments':     form.comments.value.trim(),
+        'Submitted at': new Date().toISOString(),
+      };
+
+      // ── Send ────────────────────────────────────────────
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner"></span> Sending…';
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          showState('success');
+          // Redirect after 3 s — swap URL for the real go&dance link
+          // setTimeout(() => { window.location.href = 'https://go-and-dance.com/...'; }, 3000);
+        } else {
+          showState('error');
+        }
+      } catch {
+        showState('error');
+      }
+    });
+
+    function highlightError(el) {
+      el.style.transition = 'box-shadow 0.2s ease';
+      el.style.boxShadow  = '0 0 0 2px rgba(126,18,18,.7)';
+      setTimeout(() => { el.style.boxShadow = ''; }, 1800);
+    }
+  </script>
+</body>
+</html>
