@@ -479,7 +479,7 @@
         <p class="state-title">You're registered!</p>
         <p class="state-msg">
           Thank you for joining Esencia Paradise 2026.<br />
-          Redirecting you to the ticketing platform…
+          Redirecting you to the ticketing platform in <strong id="countdown">3</strong>s…
         </p>
       </div>
 
@@ -730,8 +730,16 @@
 
         if (res.ok) {
           showState('success');
-          // Redirect after 3 s — swap URL for the real go&dance link
-          // setTimeout(() => { window.location.href = 'https://go-and-dance.com/...'; }, 3000);
+          let secs = 3;
+          const cd = document.getElementById('countdown');
+          const tick = setInterval(() => {
+            secs--;
+            if (cd) cd.textContent = secs;
+            if (secs <= 0) {
+              clearInterval(tick);
+              window.location.href = 'https://www.goandance.com/en/event/8212/esencia-paradise-2026-bachata-festival';
+            }
+          }, 1000);
         } else {
           showState('error');
         }
