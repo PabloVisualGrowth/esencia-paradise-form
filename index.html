@@ -449,10 +449,167 @@
       background-size: 200% auto;
       animation: shimmer 5s linear infinite;
     }
+
+    /* ─── Intro overlay ──────────────────────────────────── */
+    #introOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,5,6,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1.5rem;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #introOverlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ─── BorderBeam card ────────────────────────────────── */
+    @keyframes beam-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .beam-wrapper {
+      position: relative;
+      border-radius: 28px;
+      padding: 2px;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .beam-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -60%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        transparent 55%,
+        var(--bronze-dark) 65%,
+        var(--gold-light)  75%,
+        var(--bronze)      82%,
+        transparent 92%,
+        transparent 100%
+      );
+      animation: beam-spin 3s linear infinite;
+      border-radius: 0;
+    }
+
+    .intro-inner {
+      position: relative;
+      background: var(--dark-1);
+      border-radius: 26px;
+      padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+      z-index: 1;
+    }
+
+    .gift-icon {
+      font-size: 4rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 20px rgba(198,162,95,.6));
+      animation: gift-pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes gift-pulse {
+      0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 20px rgba(198,162,95,.5)); }
+      50%       { transform: scale(1.08); filter: drop-shadow(0 0 32px rgba(234,216,177,.8)); }
+    }
+
+    .intro-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      font-weight: 700;
+    }
+
+    .intro-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--bronze) 60%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+    }
+
+    .intro-body {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .intro-body strong {
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    .btn-intro {
+      margin-top: 0.4rem;
+      padding: 0.9rem 2.2rem;
+      background: linear-gradient(90deg, var(--bronze-dark) 0%, var(--bronze) 50%, var(--gold-light) 100%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+      border: none;
+      border-radius: var(--radius-btn);
+      color: var(--dark-0);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(0,0,0,.6);
+      transition: background-position 0.4s ease, transform 0.15s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-intro:hover {
+      background-position: 0% 0;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.7);
+    }
+
+    .intro-fine {
+      font-size: 0.7rem;
+      color: rgba(234,216,177,.25);
+      letter-spacing: 0.1em;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- ── Intro modal ──────────────────────────────────────── -->
+  <div id="introOverlay">
+    <div class="beam-wrapper" id="introCard">
+      <div class="intro-inner">
+        <div class="gift-icon">🎁</div>
+        <p class="intro-eyebrow">Exclusive offer</p>
+        <h2 class="intro-title">Congratulations!</h2>
+        <p class="intro-body">
+          Fill in your details and unlock a<br />
+          <strong>10% discount on your Full Pass</strong><br />
+          to Esencia Paradise 2026.
+        </p>
+        <button class="btn-intro" id="btnIntro">Claim my discount &rarr;</button>
+        <p class="intro-fine">Barcelona · April 30 → May 3, 2026</p>
+      </div>
+    </div>
+  </div>
 
   <!-- ── Header ─────────────────────────────────────────── -->
   <header>
@@ -583,14 +740,12 @@
           <div class="field full">
             <label for="style">Preferred style</label>
             <div class="pill-group">
-              <input type="radio" name="style" id="styleModern"      value="Modern Bachata" />
-              <label for="styleModern">Modern</label>
-              <input type="radio" name="style" id="styleTraditional" value="Traditional Bachata" />
-              <label for="styleTraditional">Traditional</label>
-              <input type="radio" name="style" id="styleSensual"     value="Sensual Bachata" />
-              <label for="styleSensual">Sensual</label>
-              <input type="radio" name="style" id="styleAll"         value="All styles" />
-              <label for="styleAll">All styles</label>
+              <input type="radio" name="style" id="styleSalsa"   value="Salsa" />
+              <label for="styleSalsa">Salsa</label>
+              <input type="radio" name="style" id="styleKizomba" value="Kizomba" />
+              <label for="styleKizomba">Kizomba</label>
+              <input type="radio" name="style" id="styleZouk"    value="Zouk" />
+              <label for="styleZouk">Zouk</label>
             </div>
           </div>
         </div>
@@ -612,12 +767,6 @@
               <input type="radio" name="source" id="srcOther" value="Other" />
               <label for="srcOther">Other</label>
             </div>
-          </div>
-
-          <div class="field full">
-            <label for="promoterCode">Promoter code <small style="font-size:0.65rem;text-transform:none;letter-spacing:0">(if applicable)</small></label>
-            <input type="text" id="promoterCode" name="promoterCode"
-                   placeholder="e.g. EP2026-PROMO" />
           </div>
 
           <div class="field full">
@@ -651,6 +800,11 @@
 
   <!-- ── Script ─────────────────────────────────────────── -->
   <script>
+    // ── Intro modal ─────────────────────────────────────────
+    document.getElementById('btnIntro').addEventListener('click', () => {
+      document.getElementById('introOverlay').classList.add('hidden');
+    });
+
     const WEBHOOK_URL = '/api/submit';
 
     const form       = document.getElementById('registrationForm');
@@ -712,7 +866,6 @@
         'Level':        form.querySelector('[name="level"]:checked')?.value   || '',
         'Style':        form.querySelector('[name="style"]:checked')?.value   || '',
         'Source':       form.querySelector('[name="source"]:checked')?.value  || '',
-        'Promoter code':form.promoterCode.value.trim(),
         'Comments':     form.comments.value.trim(),
         'Submitted at': new Date().toISOString(),
       };
