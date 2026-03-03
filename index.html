@@ -657,10 +657,10 @@
       <!-- Success state -->
       <div class="state-overlay" id="stateSuccess">
         <div class="state-icon success">✦</div>
-        <p class="state-title">You're registered!</p>
+        <p class="state-title">You're in!</p>
         <p class="state-msg">
-          Thank you for joining Esencia Paradise 2026.<br />
-          Redirecting you to the ticketing platform in <strong id="countdown">3</strong>s…
+          Your details have been saved.<br />
+          Choose your tickets below.
         </p>
       </div>
 
@@ -817,6 +817,22 @@
     </div>
   </main>
 
+  <!-- ── go&dance tickets widget ───────────────────────────── -->
+  <section id="ticketsSection" style="display:none; width:100%; max-width:700px; padding:0 1.25rem 4rem; position:relative; z-index:1;">
+    <p class="section-label" style="margin-bottom:1.5rem;">Select your tickets</p>
+    <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-card); padding:1.5rem; backdrop-filter:blur(20px);">
+      <!-- START GOANDANCE INTEGRATION CODE -->
+      <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22" class="goandance-tickets">
+        <script type="text/javascript" src="https://www.goandance.com/en/event/2594bc44-bc79-4765-aaff-ab30518e1f22/tickets.js"></script>
+        <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22-iframe"></div>
+        <div style="text-align:center; margin-top:1rem; font-size:0.72rem; color:rgba(234,216,177,.3);">
+          Powered by <a href="https://www.goandance.com" target="_blank" style="color:var(--bronze); text-decoration:none;">go&amp;dance</a>
+        </div>
+      </div>
+      <!-- END GOANDANCE INTEGRATION CODE -->
+    </div>
+  </section>
+
   <footer>
     &copy; 2026 Esencia Paradise · Barcelona ·
     <a href="https://esenciaparadise.com" target="_blank">esenciaparadise.com</a>
@@ -907,16 +923,9 @@
 
         if (res.ok) {
           showState('success');
-          let secs = 3;
-          const cd = document.getElementById('countdown');
-          const tick = setInterval(() => {
-            secs--;
-            if (cd) cd.textContent = secs;
-            if (secs <= 0) {
-              clearInterval(tick);
-              window.location.href = 'https://www.goandance.com/en/event/8212/esencia-paradise-2026-bachata-festival';
-            }
-          }, 1000);
+          const tickets = document.getElementById('ticketsSection');
+          tickets.style.display = 'block';
+          setTimeout(() => tickets.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
         } else {
           showState('error');
         }
