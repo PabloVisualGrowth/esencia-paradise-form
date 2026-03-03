@@ -471,60 +471,45 @@
       pointer-events: none;
     }
 
-    /* ─── BorderBeam card ────────────────────────────────── */
-    @keyframes beam-travel {
-      from { offset-distance: 0%; }
-      to   { offset-distance: 100%; }
+    /* ─── BorderBeam card (@property + conic-gradient) ─────── */
+    @property --beam-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
     }
 
-    /* Card shell */
-    .beam-wrapper {
-      position: relative;
-      border-radius: 26px;
-      max-width: 420px;
-      width: 100%;
-      background: var(--dark-1);
-      border: 1px solid rgba(234, 216, 177, 0.12);
-      box-shadow: 0 30px 80px rgba(0,0,0,.85);
-      overflow: hidden;
+    @keyframes beam-rotate {
+      to { --beam-angle: 360deg; }
     }
 
     /*
-      Beam mask layer — covers the full card but the CSS mask
-      restricts visibility to the border strip only
-      (between padding-box and border-box).
+      Outer wrapper: animated conic-gradient provides the beam.
+      padding: 2px creates the visible border strip.
     */
-    .beam-mask {
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      border: 1.5px solid transparent;
-      -webkit-mask:
-        linear-gradient(#000 0 0) padding-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite: destination-out;
-      mask:
-        linear-gradient(#000 0 0) padding-box,
-        linear-gradient(#000 0 0);
-      mask-composite: exclude;
-      overflow: hidden;
-      z-index: 2;
+    .beam-wrapper {
+      position: relative;
+      border-radius: 28px;
+      max-width: 420px;
+      width: 100%;
+      padding: 2px;
+      background: conic-gradient(
+        from var(--beam-angle),
+        rgba(234,216,177,.08) 0%,
+        rgba(234,216,177,.08) 60%,
+        var(--bronze-dark)   72%,
+        var(--gold-light)    80%,
+        var(--bronze)        87%,
+        rgba(234,216,177,.08) 100%
+      );
+      animation: beam-rotate 3s linear infinite;
+      box-shadow: 0 30px 80px rgba(0,0,0,.85);
     }
 
-    /* The beam travels along the border path */
-    .beam-element {
-      position: absolute;
-      width: 140px;
-      height: 140px;
-      background: conic-gradient(transparent, var(--bronze-dark), var(--gold-light), var(--bronze), transparent);
-      border-radius: 50%;
-      offset-path: rect(0px auto auto 0px round 26px);
-      animation: beam-travel 4s linear infinite;
-    }
-
+    /* Inner card sits on top, covering the gradient except the 2px strip */
     .intro-inner {
       position: relative;
+      background: var(--dark-1);
+      border-radius: 26px;
       padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
       text-align: center;
       display: flex;
@@ -614,7 +599,6 @@
   <!-- ── Intro modal ──────────────────────────────────────── -->
   <div id="introOverlay">
     <div class="beam-wrapper" id="introCard">
-      <div class="beam-mask"><div class="beam-element"></div></div>
       <div class="intro-inner">
         <div class="gift-icon">🎁</div>
         <p class="intro-eyebrow">Exclusive offer</p>
