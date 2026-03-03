@@ -450,61 +450,6 @@
       animation: shimmer 5s linear infinite;
     }
 
-    /* ─── Copy-helper chips ──────────────────────────────────── */
-    .copy-chip {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.15rem;
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-input);
-      padding: 0.55rem 0.8rem;
-      cursor: pointer;
-      text-align: left;
-      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    .copy-chip:hover {
-      border-color: var(--border-focus);
-      background: rgba(198,162,95,.06);
-      box-shadow: 0 0 0 3px rgba(198,162,95,.1);
-    }
-    .copy-chip.copied {
-      border-color: rgba(198,162,95,.7);
-      background: rgba(198,162,95,.1);
-    }
-    .chip-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--bronze);
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .chip-value {
-      font-size: 0.84rem;
-      color: var(--gold);
-      font-weight: 500;
-      font-family: 'Montserrat', sans-serif;
-      word-break: break-all;
-    }
-    .chip-check {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.6rem;
-      font-size: 0.75rem;
-      color: var(--bronze);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    .copy-chip.copied .chip-check { opacity: 1; }
-
-    @media (max-width: 520px) {
-      #detailsGrid { grid-template-columns: 1fr; }
-    }
-
     /* ─── Intro overlay ──────────────────────────────────── */
     #introOverlay {
       position: fixed;
@@ -874,20 +819,7 @@
 
   <!-- ── go&dance tickets widget ───────────────────────────── -->
   <section id="ticketsSection" style="display:none; width:100%; max-width:700px; padding:0 1.25rem 4rem; position:relative; z-index:1;">
-
-    <!-- Your details panel (copy-paste helper) -->
-    <div id="detailsPanel" style="
-      background:var(--card-bg); border:1px solid var(--border);
-      border-radius:var(--radius-card); padding:1.25rem 1.5rem;
-      backdrop-filter:blur(20px); margin-bottom:1.25rem;">
-      <p class="section-label" style="margin:0 0 1rem;">Your details — click any field to copy</p>
-      <div id="detailsGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;"></div>
-      <p style="font-size:0.7rem; color:var(--text-muted); margin-top:0.9rem; opacity:.6;">
-        go&dance asks for this info again — just click each field to copy it, then paste directly.
-      </p>
-    </div>
-
-    <p class="section-label" style="margin-bottom:1.25rem;">Select your tickets</p>
+    <p class="section-label" style="margin-bottom:1.5rem;">Select your tickets</p>
     <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-card); padding:1.5rem; backdrop-filter:blur(20px);">
       <!-- START GOANDANCE INTEGRATION CODE -->
       <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22" class="goandance-tickets">
@@ -991,24 +923,6 @@
 
         if (res.ok) {
           showState('success');
-
-          // ── Populate the copy-helper panel ──────────────────
-          const fields = [
-            { label: 'Full name',       value: data['Full name'] },
-            { label: 'Email',           value: data['Email'] },
-            { label: 'Phone',           value: data['Phone'] },
-            { label: 'Country',         value: data['Country'] },
-            { label: 'City',            value: data['City'] },
-            { label: 'Role',            value: data['Role'] },
-          ];
-          const grid = document.getElementById('detailsGrid');
-          grid.innerHTML = fields.map(f => `
-            <button class="copy-chip" onclick="copyChip(this, '${f.value.replace(/'/g,"\\'")}')">
-              <span class="chip-label">${f.label}</span>
-              <span class="chip-value">${f.value || '—'}</span>
-              <span class="chip-check">✓</span>
-            </button>`).join('');
-
           const tickets = document.getElementById('ticketsSection');
           tickets.style.display = 'block';
           setTimeout(() => tickets.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
@@ -1019,13 +933,6 @@
         showState('error');
       }
     });
-
-    function copyChip(btn, value) {
-      navigator.clipboard.writeText(value).then(() => {
-        btn.classList.add('copied');
-        setTimeout(() => btn.classList.remove('copied'), 1800);
-      });
-    }
 
     function highlightError(el) {
       el.style.transition = 'box-shadow 0.2s ease';
