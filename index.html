@@ -472,41 +472,59 @@
     }
 
     /* ─── BorderBeam card ────────────────────────────────── */
-    @keyframes beam-spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
+    @keyframes beam-travel {
+      from { offset-distance: 0%; }
+      to   { offset-distance: 100%; }
     }
 
+    /* Card shell */
     .beam-wrapper {
       position: relative;
-      border-radius: 28px;
-      padding: 2px;
+      border-radius: 26px;
       max-width: 420px;
       width: 100%;
+      background: var(--dark-1);
+      border: 1px solid rgba(234, 216, 177, 0.12);
+      box-shadow: 0 30px 80px rgba(0,0,0,.85);
+      overflow: hidden;
     }
 
-    .beam-wrapper::before {
-      content: '';
+    /*
+      Beam mask layer — covers the full card but the CSS mask
+      restricts visibility to the border strip only
+      (between padding-box and border-box).
+    */
+    .beam-mask {
+      pointer-events: none;
       position: absolute;
-      inset: -60%;
-      background: conic-gradient(
-        from 0deg,
-        transparent 0%,
-        transparent 55%,
-        var(--bronze-dark) 65%,
-        var(--gold-light)  75%,
-        var(--bronze)      82%,
-        transparent 92%,
-        transparent 100%
-      );
-      animation: beam-spin 3s linear infinite;
-      border-radius: 0;
+      inset: 0;
+      border-radius: inherit;
+      border: 1.5px solid transparent;
+      -webkit-mask:
+        linear-gradient(#000 0 0) padding-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: destination-out;
+      mask:
+        linear-gradient(#000 0 0) padding-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    /* The beam travels along the border path */
+    .beam-element {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background: conic-gradient(transparent, var(--bronze-dark), var(--gold-light), var(--bronze), transparent);
+      border-radius: 50%;
+      offset-path: rect(0px auto auto 0px round 26px);
+      animation: beam-travel 4s linear infinite;
     }
 
     .intro-inner {
       position: relative;
-      background: var(--dark-1);
-      border-radius: 26px;
       padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
       text-align: center;
       display: flex;
@@ -596,6 +614,7 @@
   <!-- ── Intro modal ──────────────────────────────────────── -->
   <div id="introOverlay">
     <div class="beam-wrapper" id="introCard">
+      <div class="beam-mask"><div class="beam-element"></div></div>
       <div class="intro-inner">
         <div class="gift-icon">🎁</div>
         <p class="intro-eyebrow">Exclusive offer</p>
