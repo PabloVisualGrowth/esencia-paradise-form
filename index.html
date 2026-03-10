@@ -437,6 +437,21 @@
       .form-grid { grid-template-columns: 1fr; }
       .form-grid .full { grid-column: 1; }
       header { padding: 1.25rem 1rem 0.75rem; }
+
+      /* ── Mobile pills: larger touch target + high-contrast selected state ── */
+      .pill-group label {
+        padding: 0.55rem 1.1rem;
+        min-height: 2.4rem;
+        font-size: 0.75rem;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .pill-group input:checked + label {
+        background: var(--bronze);
+        border-color: var(--bronze);
+        color: #000;
+        font-weight: 700;
+        box-shadow: 0 2px 10px rgba(198,162,95,.5);
+      }
     }
 
     /* ─── Shimmer animation on title ─────────────────────── */
@@ -625,11 +640,11 @@
         <p class="intro-eyebrow">Exclusive offer</p>
         <h2 class="intro-title">Congratulations!</h2>
         <p class="intro-body">
-          Fill in your details and unlock a<br />
-          <strong>10% discount on your Full Pass</strong><br />
-          to Esencia Paradise 2026.
+          Leave your details and we'll send you<br />
+          <strong>an exclusive discount code</strong><br />
+          for Esencia Paradise 2026.
         </p>
-        <button class="btn-intro" id="btnIntro">Claim my discount &rarr;</button>
+        <button class="btn-intro" id="btnIntro">Get my discount code &rarr;</button>
         <p class="intro-fine">Barcelona · April 30 → May 3, 2026</p>
       </div>
     </div>
@@ -762,13 +777,15 @@
           </div>
 
           <div class="field full">
-            <label for="style">Preferred style</label>
+            <label>Preferred style <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.6;">(select all that apply)</span></label>
             <div class="pill-group">
-              <input type="radio" name="style" id="styleSalsa"   value="Salsa" />
+              <input type="checkbox" name="style" id="styleBachata" value="Bachata" />
+              <label for="styleBachata">Bachata</label>
+              <input type="checkbox" name="style" id="styleSalsa"   value="Salsa" />
               <label for="styleSalsa">Salsa</label>
-              <input type="radio" name="style" id="styleKizomba" value="Kizomba" />
+              <input type="checkbox" name="style" id="styleKizomba" value="Kizomba" />
               <label for="styleKizomba">Kizomba</label>
-              <input type="radio" name="style" id="styleZouk"    value="Zouk" />
+              <input type="checkbox" name="style" id="styleZouk"    value="Zouk" />
               <label for="styleZouk">Zouk</label>
             </div>
           </div>
@@ -824,7 +841,7 @@
       <!-- START GOANDANCE INTEGRATION CODE -->
       <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22" class="goandance-tickets">
         <script type="text/javascript" src="https://www.goandance.com/en/event/2594bc44-bc79-4765-aaff-ab30518e1f22/tickets.js"></script>
-        <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22-iframe"></div>
+        <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22-iframe" data-discount="Paradise"></div>
         <div style="text-align:center; margin-top:1rem; font-size:0.72rem; color:rgba(234,216,177,.3);">
           Powered by <a href="https://www.goandance.com" target="_blank" style="color:var(--bronze); text-decoration:none;">go&amp;dance</a>
         </div>
@@ -904,7 +921,7 @@
         'City':         form.city.value.trim(),
         'Role':         form.querySelector('[name="role"]:checked')?.value    || '',
         'Level':        form.querySelector('[name="level"]:checked')?.value   || '',
-        'Style':        form.querySelector('[name="style"]:checked')?.value   || '',
+        'Style':        [...form.querySelectorAll('[name="style"]:checked')].map(el => el.value).join(', ') || '',
         'Source':       form.querySelector('[name="source"]:checked')?.value  || '',
         'Comments':     form.comments.value.trim(),
         'Submitted at': new Date().toISOString(),
