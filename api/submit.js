@@ -5,7 +5,6 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -25,7 +24,6 @@ module.exports = async function handler(req, res) {
     // Abort if n8n doesn't respond within 15 seconds
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
-
     const response = await fetch(url, { signal: controller.signal });
     clearTimeout(timeoutId);
 
@@ -35,7 +33,7 @@ module.exports = async function handler(req, res) {
     let text = '{}';
     try {
       const bodyTimeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('body timeout')), 5000)
+        setTimeout(() => reject(new Error('body timeout')), 12000)
       );
       text = await Promise.race([response.text(), bodyTimeout]);
     } catch {
@@ -45,7 +43,15 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    // Detect duplicate email from n8n response body and force 409
+    let parsed = {};
+    try { parsed = JSON.parse(text); } catch {}
+    if (parsed.ok === false && parsed.error === 'duplicate_email') {
+      return res.status(409).send(text);
+    }
+
     return res.status(status).send(text);
+
   } catch (err) {
     console.error('Proxy error:', err);
     if (err.name === 'AbortError') {
