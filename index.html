@@ -948,13 +948,16 @@
           body:    JSON.stringify(data),
         });
 
-        if (res.ok) {
+        let json = {};
+        try { json = await res.json(); } catch { /* non-JSON body */ }
+
+        if (json.error === 'duplicate_email' || res.status === 409) {
+          showState('duplicate');
+        } else if (res.ok) {
           showState('success');
           const tickets = document.getElementById('ticketsSection');
           tickets.style.display = 'block';
           setTimeout(() => tickets.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
-        } else if (res.status === 409) {
-          showState('duplicate');
         } else {
           showState('error');
         }

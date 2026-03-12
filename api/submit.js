@@ -21,12 +21,36 @@ module.exports = async function handler(req, res) {
     }
 
     const url = `${N8N_WEBHOOK}?${params.toString()}`;
-    const response = await fetch(url);
-    const text = await response.text();
 
-    return res.status(response.ok ? 200 : response.status).send(text);
+    // Abort if n8n doesn't respond within 15 seconds
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    const status = response.status;
+
+    // Read body with a separate timeout to avoid hanging on non-2xx responses
+    let text = '{}';
+    try {
+      const bodyTimeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('body timeout')), 5000)
+      );
+      text = await Promise.race([response.text(), bodyTimeout]);
+    } catch {
+      // Body read timed out or failed — build a minimal response from the status
+      if (status === 409) {
+        text = JSON.stringify({ ok: false, error: 'duplicate_email' });
+      }
+    }
+
+    return res.status(status).send(text);
   } catch (err) {
     console.error('Proxy error:', err);
+    if (err.name === 'AbortError') {
+      return res.status(504).json({ ok: false, error: 'timeout' });
+    }
     return res.status(500).json({ error: err.message });
   }
 };
