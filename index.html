@@ -687,6 +687,13 @@
         <button class="btn-retry" onclick="resetForm()">Try again</button>
       </div>
 
+      <!-- Duplicate email state -->
+      <div class="state-overlay" id="stateDuplicate">
+        <div class="state-icon error">✕</div>
+        <p class="state-title">Email already registered</p>
+        <p class="state-msg">This email address has already been used to apply for a discount. If you think this is a mistake, contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.</p>
+      </div>
+
       <!-- ── Form ───────────────────────────────────────── -->
       <form id="registrationForm" novalidate>
 
@@ -868,15 +875,18 @@
     const submitBtn  = document.getElementById('submitBtn');
     const stateOk    = document.getElementById('stateSuccess');
     const stateErr   = document.getElementById('stateError');
+    const stateDup   = document.getElementById('stateDuplicate');
 
     function showState(which) {
       form.style.display = 'none';
-      if (which === 'success') stateOk.classList.add('active');
-      if (which === 'error')   stateErr.classList.add('active');
+      if (which === 'success')   stateOk.classList.add('active');
+      if (which === 'error')     stateErr.classList.add('active');
+      if (which === 'duplicate') stateDup.classList.add('active');
     }
 
     function resetForm() {
       stateErr.classList.remove('active');
+      stateDup.classList.remove('active');
       form.style.display = '';
       submitBtn.disabled = false;
       submitBtn.innerHTML = 'Continue to Ticketing';
@@ -943,6 +953,8 @@
           const tickets = document.getElementById('ticketsSection');
           tickets.style.display = 'block';
           setTimeout(() => tickets.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+        } else if (res.status === 409) {
+          showState('duplicate');
         } else {
           showState('error');
         }
