@@ -606,10 +606,62 @@
       color: rgba(234,216,177,.25);
       letter-spacing: 0.1em;
     }
+
+    /* ─── Skip links ─────────────────────────────────────── */
+    .btn-skip {
+      display: inline-block;
+      margin-top: 0.6rem;
+      color: rgba(234,216,177,.35);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: color var(--transition);
+      cursor: pointer;
+    }
+    .btn-skip:hover { color: var(--gold); }
+
+    .skip-wrap {
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+    .skip-wrap a {
+      color: rgba(234,216,177,.35);
+      font-size: 0.78rem;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color var(--transition);
+    }
+    .skip-wrap a:hover { color: var(--gold); }
+
+    /* ─── Language toggle ────────────────────────────────── */
+    #langToggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 10000;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--bronze);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: border-color var(--transition), color var(--transition);
+    }
+    #langToggle:hover {
+      border-color: var(--border-focus);
+      color: var(--gold);
+    }
   </style>
 </head>
 
 <body>
+
+  <button id="langToggle" aria-label="Switch language">ES</button>
 
   <!-- ── Intro modal ──────────────────────────────────────── -->
   <div id="introOverlay">
@@ -637,15 +689,16 @@
             <rect x="20" y="43" width="28" height="4" rx="2" fill="white" opacity="0.05"/>
           </svg>
         </div>
-        <p class="intro-eyebrow">Exclusive offer</p>
-        <h2 class="intro-title">Congratulations!</h2>
-        <p class="intro-body">
+        <p class="intro-eyebrow" data-i18n="introEyebrow">Exclusive offer</p>
+        <h2 class="intro-title" data-i18n="introTitle">Congratulations!</h2>
+        <p class="intro-body" data-i18n-html="introBodyHtml">
           Leave your details and we'll send you<br />
           <strong>an exclusive discount code</strong><br />
           for Esencia Paradise 2026.
         </p>
-        <button class="btn-intro" id="btnIntro">Get my discount code &rarr;</button>
-        <p class="intro-fine">Barcelona · April 30 → May 3, 2026</p>
+        <button class="btn-intro" id="btnIntro" data-i18n="introCta">Get my discount code &rarr;</button>
+        <a class="btn-skip" data-i18n="introSkip" href="https://www.goandance.com/es/evento/8212/esencia-paradise-2026-bachata-festival" target="_blank">Skip, I'll buy at full price →</a>
+        <p class="intro-fine" data-i18n="introFine">Barcelona · April 30 → May 3, 2026</p>
       </div>
     </div>
   </div>
@@ -657,9 +710,9 @@
            alt="Esencia Paradise Logo"
            width="160" height="160" />
     </div>
-    <p class="eyebrow">International Bachata Congress</p>
+    <p class="eyebrow" data-i18n="headerEyebrow">International Bachata Congress</p>
     <h1>Esencia Paradise 2026</h1>
-    <p class="subtitle">Complete your details before accessing the ticketing platform</p>
+    <p class="subtitle" data-i18n="headerSubtitle">Complete your details before accessing the ticketing platform</p>
     <div class="event-badge">
       Barcelona &nbsp;·&nbsp; <span>April 30 → May 3, 2026</span>
     </div>
@@ -672,8 +725,8 @@
       <!-- Success state -->
       <div class="state-overlay" id="stateSuccess">
         <div class="state-icon success">✦</div>
-        <p class="state-title">You're in!</p>
-        <p class="state-msg">
+        <p class="state-title" data-i18n="successTitle">You're in!</p>
+        <p class="state-msg" data-i18n-html="successMsgHtml">
           Your details have been saved.<br />
           Choose your tickets below.
         </p>
@@ -682,48 +735,48 @@
       <!-- Error state -->
       <div class="state-overlay" id="stateError">
         <div class="state-icon error">✕</div>
-        <p class="state-title">Something went wrong</p>
-        <p class="state-msg">We couldn't save your information. Please try again or contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.</p>
-        <button class="btn-retry" onclick="resetForm()">Try again</button>
+        <p class="state-title" data-i18n="errorTitle">Something went wrong</p>
+        <p class="state-msg" data-i18n-html="errorMsgHtml">We couldn't save your information. Please try again or contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.</p>
+        <button class="btn-retry" onclick="resetForm()" data-i18n="errorRetry">Try again</button>
       </div>
 
       <!-- Duplicate email state -->
       <div class="state-overlay" id="stateDuplicate">
         <div class="state-icon error">✕</div>
-        <p class="state-title">Email already registered</p>
-        <p class="state-msg">This email address has already been used to apply for a discount.</p>     
+        <p class="state-title" data-i18n="dupTitle">Email already registered</p>
+        <p class="state-msg" data-i18n-html="dupMsgHtml">This email address has already been used to apply for a discount. If you think this is a mistake, contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.</p>
       </div>
 
       <!-- ── Form ───────────────────────────────────────── -->
       <form id="registrationForm" novalidate>
 
-        <p class="section-label">Personal info</p>
+        <p class="section-label" data-i18n="sectionPersonal">Personal info</p>
 
         <div class="form-grid">
           <div class="field">
-            <label for="firstName">First name *</label>
+            <label for="firstName" data-i18n="labelFirstName">First name *</label>
             <input type="text" id="firstName" name="firstName"
-                   placeholder="María" required autocomplete="given-name" />
+                   placeholder="María" required autocomplete="given-name" data-i18n-ph="phFirstName" />
           </div>
           <div class="field">
-            <label for="lastName">Last name *</label>
+            <label for="lastName" data-i18n="labelLastName">Last name *</label>
             <input type="text" id="lastName" name="lastName"
-                   placeholder="García" required autocomplete="family-name" />
+                   placeholder="García" required autocomplete="family-name" data-i18n-ph="phLastName" />
           </div>
           <div class="field full">
-            <label for="email">Email address *</label>
+            <label for="email" data-i18n="labelEmail">Email address *</label>
             <input type="email" id="email" name="email"
                    placeholder="you@example.com" required autocomplete="email" />
           </div>
           <div class="field full">
-            <label for="phone">WhatsApp / Phone *</label>
+            <label for="phone" data-i18n="labelPhone">WhatsApp / Phone *</label>
             <input type="tel" id="phone" name="phone"
                    placeholder="+34 600 000 000" required autocomplete="tel" />
           </div>
           <div class="field">
-            <label for="country">Country *</label>
+            <label for="country" data-i18n="labelCountry">Country *</label>
             <select id="country" name="country" required>
-              <option value="" disabled selected>Select country</option>
+              <option value="" disabled selected data-i18n="optCountry">Select country</option>
               <option>Spain</option>
               <option>United Kingdom</option>
               <option>France</option>
@@ -747,59 +800,63 @@
             </select>
           </div>
           <div class="field">
-            <label for="city">City</label>
+            <label for="city" data-i18n="labelCity">City</label>
             <input type="text" id="city" name="city"
                    placeholder="Barcelona" autocomplete="address-level2" />
           </div>
         </div>
 
         <div class="divider"></div>
-        <p class="section-label">Dance profile</p>
+        <p class="section-label" data-i18n="sectionDance">Dance profile</p>
 
         <div class="form-grid">
           <div class="field full">
-            <label>Dance role *</label>
+            <label data-i18n="labelRole">Dance role *</label>
             <div class="pill-group">
               <input type="radio" name="role" id="roleLeader" value="Leader" required />
-              <label for="roleLeader">Leader</label>
+              <label for="roleLeader" data-i18n="roleLeader">Leader</label>
               <input type="radio" name="role" id="roleFollower" value="Follower" />
-              <label for="roleFollower">Follower</label>
+              <label for="roleFollower" data-i18n="roleFollower">Follower</label>
               <input type="radio" name="role" id="roleBoth" value="Both" />
-              <label for="roleBoth">Both</label>
+              <label for="roleBoth" data-i18n="roleBoth">Both</label>
             </div>
           </div>
 
           <div class="field full">
-            <label>Dance level *</label>
+            <label data-i18n="labelLevel">Dance level *</label>
             <div class="pill-group">
               <input type="radio" name="level" id="lvlBeginner"     value="Beginner"     required />
-              <label for="lvlBeginner">Beginner</label>
+              <label for="lvlBeginner"     data-i18n="lvlBeginner">Beginner</label>
               <input type="radio" name="level" id="lvlIntermediate" value="Intermediate" />
-              <label for="lvlIntermediate">Intermediate</label>
+              <label for="lvlIntermediate" data-i18n="lvlIntermediate">Intermediate</label>
               <input type="radio" name="level" id="lvlAdvanced"     value="Advanced"     />
-              <label for="lvlAdvanced">Advanced</label>
+              <label for="lvlAdvanced"     data-i18n="lvlAdvanced">Advanced</label>
               <input type="radio" name="level" id="lvlPro"          value="Professional" />
-              <label for="lvlPro">Professional</label>
+              <label for="lvlPro"          data-i18n="lvlPro">Professional</label>
             </div>
           </div>
 
           <div class="field full">
-            <label>Preferred style <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.6;">(select all that apply)</span></label>
+            <label data-i18n-html="labelStyleHtml">Preferred style <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.6;">(select all that apply)</span></label>
             <div class="pill-group">
-              <input type="checkbox" name="style" id="styleBachata" value="Bachata" />
+              <input type="checkbox" name="style" id="styleBachata"            value="Bachata" />
               <label for="styleBachata">Bachata</label>
-              <input type="checkbox" name="style" id="styleSalsa"   value="Salsa" />
+              <input type="checkbox" name="style" id="styleBachataSensual"     value="Bachata Sensual" />
+              <label for="styleBachataSensual">Bachata Sensual</label>
+              <input type="checkbox" name="style" id="styleBachataTradicional" value="Bachata Tradicional" />
+              <label for="styleBachataTradicional">Bachata Tradicional</label>
+              <input type="checkbox" name="style" id="styleSalsa"              value="Salsa" />
               <label for="styleSalsa">Salsa</label>
-              <input type="checkbox" name="style" id="styleKizomba" value="Kizomba" />
+              <input type="checkbox" name="style" id="styleKizomba"            value="Kizomba" />
               <label for="styleKizomba">Kizomba</label>
-              <input type="checkbox" name="style" id="styleZouk"    value="Zouk" />
+              <input type="checkbox" name="style" id="styleZouk"               value="Zouk" />
               <label for="styleZouk">Zouk</label>
             </div>
           </div>
         </div>
 
         <div class="divider"></div>
-        <p class="section-label">How did you find us?</p>
+        <p class="section-label" data-i18n="sectionSource">How did you find us?</p>
 
         <div class="form-grid">
           <div class="field full">
@@ -809,32 +866,36 @@
               <input type="radio" name="source" id="srcFacebook" value="Facebook" />
               <label for="srcFacebook">Facebook</label>
               <input type="radio" name="source" id="srcFriend" value="Friend" />
-              <label for="srcFriend">A friend</label>
+              <label for="srcFriend" data-i18n="srcFriend">A friend</label>
               <input type="radio" name="source" id="srcPromoter" value="Promoter" />
-              <label for="srcPromoter">Promoter</label>
+              <label for="srcPromoter" data-i18n="srcPromoter">Promoter</label>
               <input type="radio" name="source" id="srcOther" value="Other" />
-              <label for="srcOther">Other</label>
+              <label for="srcOther" data-i18n="srcOther">Other</label>
             </div>
           </div>
 
           <div class="field full">
-            <label for="comments">Any questions or comments?</label>
-            <textarea id="comments" name="comments"
+            <label for="comments" data-i18n="labelComments">Any questions or comments?</label>
+            <textarea id="comments" name="comments" data-i18n-ph="phComments"
                       placeholder="Dietary requirements, accessibility needs, questions…"></textarea>
           </div>
         </div>
 
         <!-- Submit -->
         <div class="submit-wrap">
-          <button type="submit" class="btn-submit" id="submitBtn">
+          <button type="submit" class="btn-submit" id="submitBtn" data-i18n="btnSubmit">
             Continue to Ticketing
           </button>
         </div>
 
-        <p class="legal">
+        <p class="legal" data-i18n="legal">
           By submitting this form you agree that your data will be stored by Esencia Paradise
           and used solely to manage your registration and attendance.
           We will never share your information with third parties.
+        </p>
+
+        <p class="skip-wrap">
+          <a href="https://www.goandance.com/es/evento/8212/esencia-paradise-2026-bachata-festival" target="_blank" data-i18n="formSkip">Skip discount, buy at full price →</a>
         </p>
 
       </form>
@@ -843,7 +904,7 @@
 
   <!-- ── go&dance tickets widget ───────────────────────────── -->
   <section id="ticketsSection" style="display:none; width:100%; max-width:700px; padding:0 1.25rem 4rem; position:relative; z-index:1;">
-    <p class="section-label" style="margin-bottom:1.5rem;">Select your tickets</p>
+    <p class="section-label" style="margin-bottom:1.5rem;" data-i18n="ticketsLabel">Select your tickets</p>
     <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-card); padding:1.5rem; backdrop-filter:blur(20px);">
       <!-- START GOANDANCE INTEGRATION CODE -->
       <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22" class="goandance-tickets">
@@ -864,6 +925,137 @@
 
   <!-- ── Script ─────────────────────────────────────────── -->
   <script>
+    // ── Translations ─────────────────────────────────────────
+    const T = {
+      en: {
+        introEyebrow:   'Exclusive offer',
+        introTitle:     'Congratulations!',
+        introBodyHtml:  'Leave your details and we\'ll send you<br /><strong>an exclusive discount code</strong><br />for Esencia Paradise 2026.',
+        introCta:       'Get my discount code \u2192',
+        introSkip:      'Skip, I\'ll buy at full price \u2192',
+        introFine:      'Barcelona · April 30 \u2192 May 3, 2026',
+        headerEyebrow:  'International Bachata Congress',
+        headerSubtitle: 'Complete your details before accessing the ticketing platform',
+        sectionPersonal:'Personal info',
+        labelFirstName: 'First name *',
+        labelLastName:  'Last name *',
+        labelEmail:     'Email address *',
+        labelPhone:     'WhatsApp / Phone *',
+        labelCountry:   'Country *',
+        optCountry:     'Select country',
+        labelCity:      'City',
+        sectionDance:   'Dance profile',
+        labelRole:      'Dance role *',
+        roleLeader:     'Leader',
+        roleFollower:   'Follower',
+        roleBoth:       'Both',
+        labelLevel:     'Dance level *',
+        lvlBeginner:    'Beginner',
+        lvlIntermediate:'Intermediate',
+        lvlAdvanced:    'Advanced',
+        lvlPro:         'Professional',
+        labelStyleHtml: 'Preferred style <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.6;">(select all that apply)</span>',
+        sectionSource:  'How did you find us?',
+        srcFriend:      'A friend',
+        srcPromoter:    'Promoter',
+        srcOther:       'Other',
+        labelComments:  'Any questions or comments?',
+        phComments:     'Dietary requirements, accessibility needs, questions\u2026',
+        phFirstName:    'María',
+        phLastName:     'García',
+        btnSubmit:      'Continue to Ticketing',
+        formSkip:       'Skip discount, buy at full price \u2192',
+        legal:          'By submitting this form you agree that your data will be stored by Esencia Paradise and used solely to manage your registration and attendance. We will never share your information with third parties.',
+        successTitle:   'You\'re in!',
+        successMsgHtml: 'Your details have been saved.<br />Choose your tickets below.',
+        errorTitle:     'Something went wrong',
+        errorMsgHtml:   'We couldn\'t save your information. Please try again or contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.',
+        errorRetry:     'Try again',
+        dupTitle:       'Email already registered',
+        dupMsgHtml:     'This email address has already been used to apply for a discount. If you think this is a mistake, contact us at <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.',
+        ticketsLabel:   'Select your tickets',
+      },
+      es: {
+        introEyebrow:   'Oferta exclusiva',
+        introTitle:     '\u00a1Enhorabuena!',
+        introBodyHtml:  'D\u00e9janos tus datos y te enviaremos<br /><strong>un c\u00f3digo de descuento exclusivo</strong><br />para Esencia Paradise 2026.',
+        introCta:       'Quiero mi c\u00f3digo de descuento \u2192',
+        introSkip:      'Saltar, comprar\u00e9 al precio completo \u2192',
+        introFine:      'Barcelona · 30 abril \u2192 3 mayo, 2026',
+        headerEyebrow:  'Congreso Internacional de Bachata',
+        headerSubtitle: 'Completa tus datos antes de acceder a la plataforma de tickets',
+        sectionPersonal:'Informaci\u00f3n personal',
+        labelFirstName: 'Nombre *',
+        labelLastName:  'Apellidos *',
+        labelEmail:     'Email *',
+        labelPhone:     'WhatsApp / Tel\u00e9fono *',
+        labelCountry:   'Pa\u00eds *',
+        optCountry:     'Seleccionar pa\u00eds',
+        labelCity:      'Ciudad',
+        sectionDance:   'Perfil de baile',
+        labelRole:      'Rol de baile *',
+        roleLeader:     'L\u00edder',
+        roleFollower:   'Seguidor/a',
+        roleBoth:       'Ambos',
+        labelLevel:     'Nivel de baile *',
+        lvlBeginner:    'Principiante',
+        lvlIntermediate:'Intermedio',
+        lvlAdvanced:    'Avanzado',
+        lvlPro:         'Profesional',
+        labelStyleHtml: 'Estilo preferido <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.6;">(selecciona todos los que correspondan)</span>',
+        sectionSource:  '\u00bfC\u00f3mo nos encontraste?',
+        srcFriend:      'Un amigo/a',
+        srcPromoter:    'Promotor',
+        srcOther:       'Otro',
+        labelComments:  '\u00bfAlguna pregunta o comentario?',
+        phComments:     'Requisitos diet\u00e9ticos, necesidades de accesibilidad, preguntas\u2026',
+        phFirstName:    'Mar\u00eda',
+        phLastName:     'Garc\u00eda',
+        btnSubmit:      'Continuar al ticketing',
+        formSkip:       'Saltar descuento, comprar al precio completo \u2192',
+        legal:          'Al enviar este formulario aceptas que tus datos ser\u00e1n almacenados por Esencia Paradise y utilizados \u00fanicamente para gestionar tu registro y asistencia. Nunca compartiremos tu informaci\u00f3n con terceros.',
+        successTitle:   '\u00a1Ya est\u00e1s dentro!',
+        successMsgHtml: 'Tus datos han sido guardados.<br />Elige tus tickets abajo.',
+        errorTitle:     'Algo sali\u00f3 mal',
+        errorMsgHtml:   'No pudimos guardar tu informaci\u00f3n. Por favor int\u00e9ntalo de nuevo o cont\u00e1ctanos en <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.',
+        errorRetry:     'Intentar de nuevo',
+        dupTitle:       'Email ya registrado',
+        dupMsgHtml:     'Esta direcci\u00f3n de email ya ha sido utilizada para aplicar un descuento. Si crees que es un error, cont\u00e1ctanos en <a href="mailto:info@esenciaparadise.com">info@esenciaparadise.com</a>.',
+        ticketsLabel:   'Selecciona tus tickets',
+      },
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const t = T[lang];
+      document.documentElement.lang = lang;
+      document.getElementById('langToggle').textContent = lang === 'en' ? 'ES' : 'EN';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (t[k] !== undefined) el.textContent = t[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const k = el.getAttribute('data-i18n-html');
+        if (t[k] !== undefined) el.innerHTML = t[k];
+      });
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const k = el.getAttribute('data-i18n-ph');
+        if (t[k] !== undefined) el.placeholder = t[k];
+      });
+      // Country select placeholder option
+      const optC = document.querySelector('#country option[disabled]');
+      if (optC && t.optCountry) optC.textContent = t.optCountry;
+      // Submit button (only if not in loading state)
+      if (submitBtn && !submitBtn.disabled) submitBtn.textContent = t.btnSubmit;
+    }
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      setLang(currentLang === 'en' ? 'es' : 'en');
+    });
+
     // ── Intro modal ─────────────────────────────────────────
     document.getElementById('btnIntro').addEventListener('click', () => {
       document.getElementById('introOverlay').classList.add('hidden');
@@ -889,7 +1081,7 @@
       stateDup.classList.remove('active');
       form.style.display = '';
       submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Continue to Ticketing';
+      submitBtn.textContent = T[currentLang].btnSubmit;
     }
 
     // Pill-group radio: auto-deselect same-name if user clicks again (optional UX)
