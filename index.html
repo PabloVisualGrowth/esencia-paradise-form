@@ -185,6 +185,20 @@
       gap: 0.42rem;
     }
 
+    /* ─── Phone prefix group ────────────────────────────── */
+    .phone-group {
+      display: flex;
+      gap: 8px;
+    }
+    .phone-group select {
+      width: 130px;
+      flex-shrink: 0;
+    }
+    .phone-group input {
+      flex: 1;
+      min-width: 0;
+    }
+
     label {
       font-size: 0.76rem;
       font-weight: 600;
@@ -770,8 +784,58 @@
           </div>
           <div class="field full">
             <label for="phone" data-i18n="labelPhone">WhatsApp / Phone *</label>
-            <input type="tel" id="phone" name="phone"
-                   placeholder="+34 600 000 000" required autocomplete="tel" />
+            <div class="phone-group">
+              <select id="phonePrefix" name="phonePrefix" required>
+                <option value="" disabled selected data-i18n="optPrefix">+prefix</option>
+                <option value="+34">+34 Spain</option>
+                <option value="+44">+44 UK</option>
+                <option value="+33">+33 France</option>
+                <option value="+49">+49 Germany</option>
+                <option value="+39">+39 Italy</option>
+                <option value="+31">+31 Netherlands</option>
+                <option value="+32">+32 Belgium</option>
+                <option value="+351">+351 Portugal</option>
+                <option value="+41">+41 Switzerland</option>
+                <option value="+43">+43 Austria</option>
+                <option value="+46">+46 Sweden</option>
+                <option value="+47">+47 Norway</option>
+                <option value="+45">+45 Denmark</option>
+                <option value="+48">+48 Poland</option>
+                <option value="+420">+420 Czech Rep.</option>
+                <option value="+36">+36 Hungary</option>
+                <option value="+40">+40 Romania</option>
+                <option value="+30">+30 Greece</option>
+                <option value="+353">+353 Ireland</option>
+                <option value="+1">+1 USA / Canada</option>
+                <option value="+52">+52 Mexico</option>
+                <option value="+57">+57 Colombia</option>
+                <option value="+54">+54 Argentina</option>
+                <option value="+55">+55 Brazil</option>
+                <option value="+56">+56 Chile</option>
+                <option value="+51">+51 Peru</option>
+                <option value="+58">+58 Venezuela</option>
+                <option value="+593">+593 Ecuador</option>
+                <option value="+598">+598 Uruguay</option>
+                <option value="+595">+595 Paraguay</option>
+                <option value="+591">+591 Bolivia</option>
+                <option value="+507">+507 Panama</option>
+                <option value="+506">+506 Costa Rica</option>
+                <option value="+1809">+1809 Dom. Rep.</option>
+                <option value="+27">+27 South Africa</option>
+                <option value="+7">+7 Russia</option>
+                <option value="+380">+380 Ukraine</option>
+                <option value="+90">+90 Turkey</option>
+                <option value="+972">+972 Israel</option>
+                <option value="+61">+61 Australia</option>
+                <option value="+64">+64 New Zealand</option>
+                <option value="+81">+81 Japan</option>
+                <option value="+82">+82 South Korea</option>
+                <option value="+86">+86 China</option>
+                <option value="+91">+91 India</option>
+              </select>
+              <input type="tel" id="phone" name="phone"
+                     data-i18n-ph="phPhone" placeholder="600 000 000" required autocomplete="tel-national" />
+            </div>
           </div>
           <div class="field">
             <label for="country" data-i18n="labelCountry">Country *</label>
@@ -941,6 +1005,8 @@
         labelLastName:  'Last name *',
         labelEmail:     'Email address *',
         labelPhone:     'WhatsApp / Phone *',
+        optPrefix:      '+prefix',
+        phPhone:        '600 000 000',
         labelCountry:   'Country *',
         optCountry:     'Select country',
         labelCity:      'City',
@@ -989,6 +1055,8 @@
         labelLastName:  'Apellidos *',
         labelEmail:     'Email *',
         labelPhone:     'WhatsApp / Tel\u00e9fono *',
+        optPrefix:      '+prefijo',
+        phPhone:        '600 000 000',
         labelCountry:   'Pa\u00eds *',
         optCountry:     'Seleccionar pa\u00eds',
         labelCity:      'Ciudad',
@@ -1045,6 +1113,9 @@
         const k = el.getAttribute('data-i18n-ph');
         if (t[k] !== undefined) el.placeholder = t[k];
       });
+      // Phone prefix select placeholder option
+      const optP = document.querySelector('#phonePrefix option[disabled]');
+      if (optP && t.optPrefix) optP.textContent = t.optPrefix;
       // Country select placeholder option
       const optC = document.querySelector('#country option[disabled]');
       if (optC && t.optCountry) optC.textContent = t.optCountry;
@@ -1118,7 +1189,7 @@
         'First name':   form.firstName.value.trim(),
         'Last name':    form.lastName.value.trim(),
         'Email':        form.email.value.trim().toLowerCase(),
-        'Phone':        form.phone.value.trim(),
+        'Phone':        `${form.phonePrefix.value} ${form.phone.value.trim()}`,
         'Country':      form.country.value,
         'City':         form.city.value.trim(),
         'Role':         form.querySelector('[name="role"]:checked')?.value    || '',
