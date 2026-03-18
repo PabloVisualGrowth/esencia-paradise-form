@@ -426,6 +426,18 @@
     .legal a { color: var(--bronze); text-decoration: none; }
     .legal a:hover { text-decoration: underline; }
 
+    .form-warning {
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(198,162,95,.08);
+      border: 1px solid rgba(198,162,95,.25);
+      border-radius: var(--radius-input);
+      font-size: 0.78rem;
+      color: rgba(234,216,177,.75);
+      text-align: center;
+      line-height: 1.6;
+    }
+
     /* ─── Divider line ───────────────────────────────────── */
     .divider {
       height: 1px;
@@ -615,6 +627,18 @@
       box-shadow: 0 16px 40px rgba(0,0,0,.7);
     }
 
+    .intro-warning {
+      margin: 0.75rem 0 0.25rem;
+      padding: 0.65rem 0.9rem;
+      background: rgba(198,162,95,.07);
+      border: 1px solid rgba(198,162,95,.2);
+      border-radius: 10px;
+      font-size: 0.73rem;
+      color: rgba(234,216,177,.65);
+      text-align: center;
+      line-height: 1.6;
+    }
+
     .intro-fine {
       font-size: 0.7rem;
       color: rgba(234,216,177,.25);
@@ -710,6 +734,7 @@
           <strong>an exclusive discount code</strong><br />
           for Esencia Paradise 2026.
         </p>
+        <p class="intro-warning" data-i18n="oneTimeWarning">⚠ This code can only be used once. Once you submit your details, the code is assigned to you — make sure you're ready to purchase your ticket.</p>
         <button class="btn-intro" id="btnIntro" data-i18n="introCta">Get my discount code &rarr;</button>
         <a class="btn-skip" data-i18n="introSkip" href="https://www.goandance.com/es/evento/8212/esencia-paradise-2026-bachata-festival" target="_blank">Skip, I'll buy at full price →</a>
         <p class="intro-fine" data-i18n="introFine">Barcelona · April 30 → May 3, 2026</p>
@@ -946,6 +971,7 @@
         </div>
 
         <!-- Submit -->
+        <p class="form-warning" data-i18n="oneTimeWarning">⚠ This code can only be used once. Once you submit your details, the code is assigned to you — make sure you're ready to purchase your ticket.</p>
         <div class="submit-wrap">
           <button type="submit" class="btn-submit" id="submitBtn" data-i18n="btnSubmit">
             Continue to Ticketing
@@ -1029,6 +1055,7 @@
         phFirstName:    'María',
         phLastName:     'García',
         btnSubmit:      'Continue to Ticketing',
+        oneTimeWarning: '\u26a0 This code can only be used once. If you submit your details but don\u2019t complete your purchase, the code will no longer be valid.',
         formSkip:       'Skip discount, buy at full price \u2192',
         legal:          'By submitting this form you agree that your data will be stored by Esencia Paradise and used solely to manage your registration and attendance. We will never share your information with third parties.',
         successTitle:   'You\'re in!',
@@ -1079,6 +1106,7 @@
         phFirstName:    'Mar\u00eda',
         phLastName:     'Garc\u00eda',
         btnSubmit:      'Continuar al ticketing',
+        oneTimeWarning: '\u26a0 Este c\u00f3digo solo se puede usar una vez. Si env\u00edas tus datos pero no completas la compra, el c\u00f3digo ya no ser\u00e1 v\u00e1lido.',
         formSkip:       'Saltar descuento, comprar al precio completo \u2192',
         legal:          'Al enviar este formulario aceptas que tus datos ser\u00e1n almacenados por Esencia Paradise y utilizados \u00fanicamente para gestionar tu registro y asistencia. Nunca compartiremos tu informaci\u00f3n con terceros.',
         successTitle:   '\u00a1Ya est\u00e1s dentro!',
