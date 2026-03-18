@@ -972,7 +972,6 @@
     <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-card); padding:1.5rem; backdrop-filter:blur(20px);">
       <!-- START GOANDANCE INTEGRATION CODE -->
       <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22" class="goandance-tickets">
-        <script type="text/javascript" src="https://www.goandance.com/en/event/2594bc44-bc79-4765-aaff-ab30518e1f22/tickets.js"></script>
         <div id="goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22-iframe" data-discount="Paradise"></div>
         <div style="text-align:center; margin-top:1rem; font-size:0.72rem; color:rgba(234,216,177,.3);">
           Powered by <a href="https://www.goandance.com" target="_blank" style="color:var(--bronze); text-decoration:none;">go&amp;dance</a>
@@ -1220,6 +1219,7 @@
           showState('success');
           const tickets = document.getElementById('ticketsSection');
           tickets.style.display = 'block';
+          loadGoAndDanceWidget(data['Email']);
           setTimeout(() => tickets.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
         } else {
           showState('error');
@@ -1228,6 +1228,31 @@
         showState('error');
       }
     });
+
+    function loadGoAndDanceWidget(email) {
+      const div = document.getElementById('goandance-tickets-2594bc44-bc79-4765-aaff-ab30518e1f22-iframe');
+      div.innerHTML = '';
+      const discount = div.getAttribute('data-discount');
+      let link = 'https://www.goandance.com/en/event-tickets/2594bc44-bc79-4765-aaff-ab30518e1f22';
+      const params = new URLSearchParams();
+      if (discount) params.set('discount', discount);
+      if (email)    params.set('email', email);
+      link += '?' + params.toString();
+
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('height', '100px');
+      iframe.setAttribute('width', '100%');
+      iframe.setAttribute('frameborder', 0);
+      iframe.setAttribute('scrolling', 'auto');
+      iframe.src = link;
+      div.appendChild(iframe);
+
+      window.addEventListener('message', function(event) {
+        if (event.origin === 'https://www.goandance.com') {
+          iframe.style.height = event.data + 'px';
+        }
+      });
+    }
 
     function highlightError(el) {
       el.style.transition = 'box-shadow 0.2s ease';
